@@ -1,3 +1,3 @@
 #!/usr/bin/python3
-def power(a, b):
+def custom_pow(a, b):
     return a ** b 
