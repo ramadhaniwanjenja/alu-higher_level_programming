@@ -1,5 +1,4 @@
 
-
 #!/usr/bin/python3
 # Magic class from a given ByteCode.
 """Magic class from a given ByteCode."""
