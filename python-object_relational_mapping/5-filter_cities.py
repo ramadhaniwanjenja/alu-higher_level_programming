@@ -1,20 +1,19 @@
 #!/usr/bin/python3
-# Defines a State model.
-# Inherits from SQLAlchemy Base and links to the MySQL table states.
-
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+"""all cities by state"""
 
 
-class State(Base):
-    """Represents a state for a MySQL database.
+import MySQLdb
+from sys import argv
 
-    __tablename__ (str): The name of the MySQL table to store States.
-    id (sqlalchemy.Integer): The state's id.
-    name (sqlalchemy.String): The state's name.
-    """
-    __tablename__ = "states"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(128), nullable=False)
+
+if __name__ == "__main__":
+    db = MySQLdb.connect(host="localhost", port=3306, user=argv[1],
+                         passwd=argv[2], db=argv[3], charset="utf8")
+    cursor = db.cursor()
+    cursor.execute("SELECT cities.name FROM cities \
+    JOIN states ON cities.state_id = states.id WHERE states.name LIKE %s \
+    ORDER BY cities.id", (argv[4],))
+    my_list = cursor.fetchall()
+    print(", ".join(city[0] for city in my_list))
+    cursor.close()
+    db.close()
